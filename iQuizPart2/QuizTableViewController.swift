@@ -21,21 +21,106 @@ struct Question {
 class QuizTableViewController: UITableViewController {
 
     
-    
-    let quizNames = ["Math", "Science", "Marvel Super Heros"]
     let quizImages = [UIImage(named: "math"), UIImage(named: "science"), UIImage(named: "marvel")]
-    let MathQuiz = [Question(question: "2+2?", answers: ["4","5", "6", "7"], correctAnswer: "4", played: false), Question(question:"4*4?", answers: ["16","22","124","0"], correctAnswer: "16", played: false)]
-    
-    let ScienceQuiz = [Question(question: "What is H20?", answers: ["Water","Shampoo", "Fire", "Rainbows"], correctAnswer: "Water", played: false), Question(question:"What helps grow muscles?", answers: ["French Fries","Protein","Potatoe Skins","Diet Coke"], correctAnswer: "Protein", played: false)]
 
-    let MarvelQuiz = [Question(question: "What is Thor's weapon?", answers: ["Screwdriver","Ruler", "Hammer", "Nail"], correctAnswer: "Hammer", played: false), Question(question:"What is Iron Man's name?", answers: ["Peter Parker","Tony Stark","Harry Potter","Derry Cheng"], correctAnswer: "Tony Stark", played: false)]
+    var quizNames = [String]()
+    //["Math", "Science", "Marvel Super Heros"]
     
+    var MathQuiz = [Question]()
+    //[Question(question: "2+2?", answers: ["4","5", "6", "7"], correctAnswer: "4", played: false), Question(question:"4*4?", answers: ["16","22","124","0"], correctAnswer: "16", played: false)]
     
+    var ScienceQuiz = [Question]()
+    //[Question(question: "What is H20?", answers: ["Water","Shampoo", "Fire", "Rainbows"], correctAnswer: "Water", played: false), Question(question:"What helps grow muscles?", answers: ["French Fries","Protein","Potatoe Skins","Diet Coke"], correctAnswer: "Protein", played: false)]
 
+    var MarvelQuiz = [Question]()
+    //[Question(question: "What is Thor's weapon?", answers: ["Screwdriver","Ruler", "Hammer", "Nail"], correctAnswer: "Hammer", played: false), Question(question:"What is Iron Man's name?", answers: ["Peter Parker","Tony Stark","Harry Potter","Derry Cheng"], correctAnswer: "Tony Stark", played: false)]
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        quizNames = []
+        MathQuiz = []
+        ScienceQuiz = []
+        MarvelQuiz = []
+        
+        let nav = self.navigationController as! NavViewController
+        //print("\(nav.newQuiz)Derry Cheng")
+        
+        let jsonObj = nav.newQuiz
+
+        if(jsonObj.count < 2){
+            quizNames = ["Math", "Science", "Marvel Super Heros"]
+            MathQuiz = [Question(question: "2+2?", answers: ["4","5", "6", "7"], correctAnswer: "4", played: false), Question(question:"4*4?", answers: ["16","22","124","0"], correctAnswer: "16", played: false)]
+            
+            ScienceQuiz = [Question(question: "What is H20?", answers: ["Water","Shampoo", "Fire", "Rainbows"], correctAnswer: "Water", played: false), Question(question:"What helps grow muscles?", answers: ["French Fries","Protein","Potatoe Skins","Diet Coke"], correctAnswer: "Protein", played: false)]
+            
+            MarvelQuiz = [Question(question: "What is Thor's weapon?",answers: ["Screwdriver","Ruler", "Hammer", "Nail"], correctAnswer: "Hammer", played: false), Question(question:"What is Iron Man's name?", answers: ["Peter Parker","Tony Stark","Harry Potter","Derry Cheng"], correctAnswer: "Tony Stark", played: false)]
+            
+        } else {
+            
+            for subject in jsonObj {
+                
+                let title = subject["title"] as! String
+                //print("Subject: \(title)")
+
+                switch title {
+                    
+                    case "Science!" :
+                        quizNames.append(title)
+                    case "Marvel Super Heroes" :
+                        quizNames.append(title)
+                    case "Mathematics" :
+                        quizNames.append(title)
+                    default :
+                        break
+                    
+                }
+                
+                let desc = subject["desc"] as! String
+                //print("Description: \(desc)")
+                
+                let questions = subject["questions"]!
+                //print("Questions: \(questions)")
+                
+                
+                
+                for question in questions as! NSArray{
+                    
+                    
+                    let answers = question["answers"] as! NSArray
+                    let answer = question["answer"] as! String
+                    let text = question["text"] as! String
+                    
+                    let answerWORD = answers[Int(answer)!-1] as! String
+//                    print("Answer: \(answer)")
+//                    print ("Text: \(text)")
+//                    for choice in answers {
+//                        print("Choices: \(choice)")
+//                    }
+                    switch title {
+                        case "Science!" :
+                            ScienceQuiz.append(Question(question: text, answers: answers as! [String], correctAnswer: answerWORD, played: false))
+                        case "Marvel Super Heroes" :
+                            MarvelQuiz.append(Question(question: text, answers: answers as! [String], correctAnswer: answerWORD, played: false))
+                        case "Mathematics" :
+                            MathQuiz.append(Question(question: text, answers: answers as! [String], correctAnswer: answerWORD, played: false))
+                        default :
+                            break
+                        
+                    }
+                    
+                    
+                }
+                
+                
+            }
+
+        }
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -47,7 +132,7 @@ class QuizTableViewController: UITableViewController {
         
    //Start TEST GLOB
         let nav = self.navigationController as! NavViewController
-        print("\(nav.newQuiz)Derry Cheng")
+        //print("\(nav.newQuiz)Derry Cheng")
         
    //End TEST GLOB
 
@@ -126,36 +211,5 @@ class QuizTableViewController: UITableViewController {
             }
             
         }
-
-        
-        
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 }

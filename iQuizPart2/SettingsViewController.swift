@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController {
         
         let session = NSURLSession(configuration: sessionConfig, delegate: nil, delegateQueue: nil)
         
-        let URL = NSURL(string: "http://tednewardsandbox.site44.com/questions.json")
+        let URL = NSURL(string: newURL!)
         let request = NSMutableURLRequest(URL: URL!)
         request.HTTPMethod = "GET"
         
@@ -39,28 +39,29 @@ class SettingsViewController: UIViewController {
                 var parseError: NSError?
                 
                 self.newQuiz = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! [AnyObject]
-                let jsonObj = self.newQuiz as! NSArray
+                let jsonObj = self.newQuiz
                 
                 for subject in jsonObj {
-                    
-                    let title = subject["title"]!
-                    print("\(title)")
-                    let desc = subject["desc"]
-                    print("\(desc)")
-                    let questions = subject["questions"]
-                    print("\(questions)")
-                    
-                    for question in questions as! NSArray{
-                        let answers = question["answers"]
-                        let answer = question["answer"]
-                        let text = question["text"]
-                        
-                        print("Answer: \(answer)")
-                        print ("Text: \(text)")
-                        for choice in answers as! NSArray{
-                            print("Choices: \(choice)")
-                        }
-                    }
+//                    
+//                    let title = subject["title"]!
+//                    print("\(title)")
+//                    let desc = subject["desc"]
+//                    print("\(desc)")
+//                    
+//                    let questions = subject["questions"]
+//                    print("\(questions)")
+//                    
+//                    for question in questions as! NSArray{
+//                        let answers = question["answers"]
+//                        let answer = question["answer"]
+//                        let text = question["text"]
+//                        
+//                        print("Answer: \(answer)")
+//                        print ("Text: \(text)")
+//                        for choice in answers as! NSArray{
+//                            print("Choices: \(choice)")
+//                        }
+//                    }
                     
                     
                     
@@ -68,7 +69,7 @@ class SettingsViewController: UIViewController {
                     navController.newQuiz = self.newQuiz
                     
                     
-                    print("\(navController.newQuiz) blablablabalbalab625346923764596872345789234")
+                    //print("\(navController.newQuiz) blablablabalbalab625346923764596872345789234")
                     
                     
                 }

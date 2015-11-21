@@ -49,7 +49,7 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         let nav = self.navigationController as! NavViewController
-        print("\(nav.newQuiz)Derry Cheng")
+        //print("\(nav.newQuiz)Derry Cheng")
         
         
         
@@ -84,6 +84,7 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
         
         let q = self.questions[indexPath.row]
         cell.quizTitle.text = q.question
+        
         self.correctAnswer = q.correctAnswer
         return cell
      }
